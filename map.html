@@ -1,0 +1,41 @@
+<html>
+  <head>
+  <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+  <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js"
+  type="text/javascript" charset="utf-8"></script>
+  <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js"
+  type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+  <div style="width: 640px; height: 480px" id="mapContainer"></div>
+  <script>
+    // Initialize the platform object:
+    var platform = new H.service.Platform({
+    'app_id': '2w7nmCZKoWGy4AdqkQuo',
+    'app_code': 'qkuNEpqPUq4r3hb1Uq8CBg'
+    });
+
+    // Obtain the default map types from the platform object
+    var maptypes = platform.createDefaultLayers();
+
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+    document.getElementById('mapContainer'),
+    maptypes.normal.map,
+    {
+      zoom: 10,
+      center: { lng: 13.4, lat: 52.51 }
+    });
+	// Create a marker icon from an URL, set the size for the icon
+	var icon = new H.map.Icon('https://files.slack.com/files-pri/TJF0MFVUY-FJBD0674K/contruction_sign.png', {size: {w: 26, h: 26}});
+	
+	// Create a marker using the previously created icon
+	var marker = new H.map.Marker({ lat: 52.555, lng: 13.444}, { icon: icon });
+	
+	// Add the marker to the map
+	map.addObject(marker);
+	
+	
+  </script>
+  </body>
+</html>
