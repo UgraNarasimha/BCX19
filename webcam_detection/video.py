@@ -1,5 +1,4 @@
 import time
-
 import cv2
 import numpy as np
 from keras import backend as K
@@ -8,6 +7,23 @@ from keras.models import load_model
 from yad2k.models.keras_yolo import yolo_head, yolo_eval
 from yad2k.yolo_utils import read_classes, read_anchors, preprocess_webcam_image, draw_boxes, \
     generate_colors
+from socket import * # Import necessary modules
+
+HOST = '100.100.148.164'    # Server(Raspberry Pi) IP address
+PORT = 21567
+BUFSIZ = 1024             # buffer size
+ADDR = (HOST, PORT)
+
+
+tcpCliSock = socket(AF_INET, SOCK_STREAM)   # Create a socket
+tcpCliSock.connect(ADDR)                    # Connect with the server
+
+
+
+	
+	
+	
+
 
 stream = cv2.VideoCapture(0)
 
@@ -51,7 +67,10 @@ def predict(sess, frame):
     # Draw bounding boxes on the image file
     draw_boxes(image, out_scores, out_boxes, out_classes, class_names, colors)
 
-    return np.array(image)
+    cars = np.count_nonzero(out_classes == 2)
+    return np.array(image), cars
+
+    #return np.array(image)
 
 
 sess = K.get_session()
@@ -64,9 +83,19 @@ while True:
 
     # Run detection
     start = time.time()
-    output_image = predict(sess, frame)
+    output_image, cars = predict(sess, frame)
     end = time.time()
     print("Inference time: {:.2f}s".format(end - start))
+
+    print("The number of cars: ",cars)
+
+    if cars >= 3:
+        tcpCliSock.send(b"1")
+        print("green")
+    else:
+        tcpCliSock.send(b"0")
+        print("red")
+    
 
     # Display the resulting frame
     cv2.imshow('', output_image)
@@ -76,3 +105,4 @@ while True:
 # When everything done, release the capture
 stream.release()
 cv2.destroyAllWindows()
+tcpCliSock.close()
