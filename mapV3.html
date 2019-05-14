@@ -1,0 +1,67 @@
+<html>
+  <head>
+  <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+  <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js"
+  type="text/javascript" charset="utf-8"></script>
+  <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js"
+  type="text/javascript" charset="utf-8"></script>
+  </head>
+  <body>
+  <div style="width: 640px; height: 480px" id="mapContainer"></div>
+  <script>
+    // Initialize the platform object:
+    var platform = new H.service.Platform({
+    'app_id': '2w7nmCZKoWGy4AdqkQuo',
+    'app_code': 'qkuNEpqPUq4r3hb1Uq8CBg'
+    });
+
+    // Obtain the default map types from the platform object
+    var maptypes = platform.createDefaultLayers();
+
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+    document.getElementById('mapContainer'),
+    maptypes.normal.map,
+    {
+      zoom: 10,
+      center: { lng: 13.4, lat: 52.51 }
+    });
+	// Create a construction marker icon from an URL, set the size for the icon
+	var cicon = new H.map.Icon('https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Bild_2e_-_Baustelle%2C_StVO_1956.svg/1024px-Bild_2e_-_Baustelle%2C_StVO_1956.svg.png', {size: {w: 26, h: 26}});
+	
+	// Create company logo icons
+	var icon1 = new H.map.Icon('https://www.karrierefuehrer.de/wordpress/wp-content/uploads/2013/11/logo-leonhard-weiss-e1478272836650.jpg', {size: {w:60, h:42}});
+	var icon2 = new H.map.Icon('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Strabag.svg/2000px-Strabag.svg.png', {size: {w:100, h:39}});
+	var icon3 = new H.map.Icon('https://upload.wikimedia.org/wikipedia/de/3/36/DEGES.svg', {size: {w:140, h:31}});
+	
+	// Create construction markers
+	var lat1 = 52.50
+	var lng1 = 13.24791	
+	var cmarker1 = new H.map.Marker({ lat: lat1, lng: lng1}, { icon: cicon });
+	var lat2 = 52.606045
+	var lng2 = 13.449268	
+	var cmarker2 = new H.map.Marker({ lat: lat2, lng: lng2}, { icon: cicon });
+	
+	var lat3 = 52.504985
+	var lng3 = 13.609069	
+	var cmarker3 = new H.map.Marker({ lat: lat3, lng: lng3}, { icon: cicon });
+	
+	// Create company markers
+	var marker1 = new H.map.Marker({ lat: lat1 -0.037, lng: 13.24791}, { icon: icon1 });
+	var marker2 = new H.map.Marker({ lat: lat2 -0.037, lng: 13.449268}, { icon: icon2 });
+	var marker3 = new H.map.Marker({ lat: lat3 -0.037, lng: 13.609069}, { icon: icon3 });
+
+	// Add the construction markers to the map
+	map.addObject(cmarker1);
+	map.addObject(cmarker2);
+	map.addObject(cmarker3);
+	
+	// Add the company markers to the map
+	map.addObject(marker1);
+	map.addObject(marker2);
+	map.addObject(marker3);
+	
+	
+  </script>
+  </body>
+</html>
