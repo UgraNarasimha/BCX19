@@ -34,7 +34,7 @@ image_shape = (480., 640.)
 yolo_model = load_model("model_data/yolo.h5")
 print(yolo_model.summary())
 yolo_outputs = yolo_head(yolo_model.output, anchors, len(class_names))
-scores, boxes, classes = yolo_eval(yolo_outputs, image_shape)
+scores, boxes, classes, box_xy, box_wh = yolo_eval(yolo_outputs, image_shape)
 
 
 def predict(sess, frame):
@@ -75,6 +75,18 @@ def predict(sess, frame):
 
 sess = K.get_session()
 
+(grabbed, frame) = stream.read()
+fshape = frame.shape
+fheight = fshape[0]
+fwidth = fshape[1]
+#print fwidth , fheight
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('output.avi',fourcc, 20.0, (fwidth,fheight))
+
+
+#fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+#out = cv2.VideoWriter('output', fourcc, 24.0, ())
+
 while True:
     # Capture frame-by-frame
     grabbed, frame = stream.read()
@@ -99,10 +111,12 @@ while True:
 
     # Display the resulting frame
     cv2.imshow('', output_image)
+    out.write(output_image)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
 # When everything done, release the capture
 stream.release()
+out.release()
 cv2.destroyAllWindows()
 tcpCliSock.close()

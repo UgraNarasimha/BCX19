@@ -333,7 +333,7 @@ def yolo_eval(yolo_outputs,
     scores = K.gather(scores, nms_index)
     classes = K.gather(classes, nms_index)
 
-    return scores, boxes, classes
+    return scores, boxes, classes, box_xy, box_wh
 
 
 def preprocess_true_boxes(true_boxes, anchors, image_size):
