@@ -9,7 +9,7 @@ from yad2k.yolo_utils import read_classes, read_anchors, preprocess_webcam_image
     generate_colors
 from socket import * # Import necessary modules
 
-HOST = '100.100.148.164'    # Server(Raspberry Pi) IP address
+HOST = '100.100.198.163'    # Server(Raspberry Pi) IP address
 PORT = 21567
 BUFSIZ = 1024             # buffer size
 ADDR = (HOST, PORT)
